@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+      <div class="container">
+        <div class="canvas-container">
+          <canvas class="canvas" id="canvas"></canvas>
+        </div>
+
+        <div class="tools-container">
+            <div class="flex flex-col ml-2">
+                <div class="text-lg font-bold mb-2">Translation</div>
+                <div class="flex flex-col mb-2">
+                  <div class="flex flex-row">
+                    <div class="mr-2">x:</div>
+                    <input type="range" min="-3" max="3" step="0.01" value="0" class="slider" id="tx_slider">
+                  </div>
+                  <div class="flex flex-row">
+                    <div class="mr-2">y:</div>
+                    <input type="range" min="-5" max="5" step="0.01" value="0" class="slider" id="ty_slider">
+                  </div>
+                  <div class="flex flex-row">
+                    <div class="mr-2">z:</div>
+                    <input type="range" min="-5" max="5" step="0.01" value="0" class="slider" id="tz_slider">
+                  </div>
+                </div>
+    
+                <div class="text-lg font-bold mb-2">Rotation</div>
+                <div class="flex flex-col mb-2">
+                  <div class="flex flex-row">
+                    <div class="mr-2">x:</div>
+                    <input type="range" min="0" max="6.28" step="0.01" value="0" class="slider" id="rx_slider">
+                  </div>
+                  <div class="flex flex-row">
+                    <div class="mr-2">y:</div>
+                    <input type="range" min="-5" max="5" step="0.01" value="0" class="slider" id="ry_slider">
+                  </div>
+                  <div class="flex flex-row">
+                    <div class="mr-2">z:</div>
+                    <input type="range" min="-5" max="5" step="0.01" value="0" class="slider" id="rz_slider">
+                  </div>
+                </div>
+
+                <div class="text-lg font-bold mb-2">Scale</div>
+                <div class="flex flex-col mb-2">
+                  <div class="flex flex-row">
+                    <div class="mr-2">x:</div>
+                    <input type="range" min="-5" max="5" step="0.01" value="0" class="slider" id="sx_slider">
+                  </div>
+                  <div class="flex flex-row">
+                    <div class="mr-2">y:</div>
+                    <input type="range" min="-5" max="5" step="0.01" value="0" class="slider" id="sy_slider">
+                  </div>
+                  <div class="flex flex-row">
+                    <div class="mr-2">z:</div>
+                    <input type="range" min="-5" max="5" step="0.01" value="0" class="slider" id="sz_slider">
+                  </div>
+
+                    <div class="flex flex-row">
+                      <div class="mr-2 text-lg font-bold mb-2 mt-2" >Projection Type :</div>
+                      <select class="dropdown" id="mode_select" name="mode_select">
+                          <option value="perspective">Perspective</option>
+                          <option value="orthogonal">Orthogonal</option>
+                          <option value="oblique">Oblique</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-row mt-2 ml-2 mr-2 gap-x-2">
+                        <button id="help_btn">Help</button>
+                        <button id="default_btn">Set Default</button>
+                    </div>
+
+                    <div class="flex flex-row mt-2 ml-2 mr-2 gap-x-2">
+                        <input type="file" accept=".json" id="fileInput">
+                        <button id="loadButton">Load</button>
+                    </div>
+
+                    <label class="mt-2">
+                      <input type="checkbox" name="shading" id="shading">
+                      Shading
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+  <script src="modules/main.js" type="module"></script>
+</body>
+</html>
