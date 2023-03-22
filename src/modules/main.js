@@ -292,7 +292,6 @@ function main() {
       cameraMatrix[13],
       cameraMatrix[14],
     ];
-    console.log(cameraPosition);
 
     // Set up camera matrix, and get the view matrix relative to the camera
     var cameraMatrix = m4.lookAt(cameraPosition, target, up);
