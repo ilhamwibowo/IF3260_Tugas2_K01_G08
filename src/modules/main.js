@@ -71,6 +71,20 @@ function main() {
     const target = [0, 0, 0];
     const up = [0, 1, 0];
 
+    // Projection constants
+    const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+    const fov = Math.PI / 4; 
+    const near = 0.1;
+    const far = 100;
+
+    const theta = 45;
+    const phi = 45;
+
+    const left = -2;
+    const right = 2;
+    const bottom = -2;
+    const top = 2;
+
     // Light direction
     const lightDirection = [0.5, 0.7, 1];
 
@@ -202,6 +216,12 @@ function main() {
       drawScene();
     };
 
+    // Event listener for projection type
+    document.getElementById("mode_select").addEventListener("change", function() {
+      projection_type = this.value;
+      drawScene();
+    });
+
     document.getElementById("shading").addEventListener("change", function() {
       enableShading = this.checked ? true : false;
       drawScene();
@@ -227,13 +247,24 @@ function main() {
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       gl.enable(gl.DEPTH_TEST);
 
-      const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-      const fov = Math.PI / 4; 
-      const near = 1;
-      const far = 2000;
+      var projectionMatrix = m4.identity();
 
       // Set up projection matrix
-      var projectionMatrix = m4.perspective(fov, aspect, near, far);
+      if (projection_type == "perspective") {
+        projectionMatrix = m4.perspective(fov, aspect, near, far);
+      }
+      else if (projection_type == "orthographic") {
+        projectionMatrix = m4.orthographic(projectionMatrix, left, right, bottom, top, near, far);
+      }
+      else if (projection_type == "oblique") {
+        var obliqueMatrix = m4.identity();
+        var orthoMatrix = m4.identity();
+
+        obliqueMatrix = m4.oblique(projectionMatrix, theta, phi);
+        orthoMatrix = m4.orthographic(projectionMatrix, left, right, bottom, top, near, far);
+        
+        projectionMatrix = m4.translate( m4.multiply(obliqueMatrix, orthoMatrix), 1.75, 1.75, 1.75);
+      }
 
       // Set up camera matrix, and get the view matrix relative to the camera
       const cameraMatrix = m4.lookAt(cameraPosition, target, up);

@@ -43,6 +43,57 @@ export var m4 = {
         0, 0, near * far * rangeInv * 2, 0
       ];
     },
+
+    orthographic: function(matrix, left, right, bottom, top, near, far) {
+      var lr = 1 / (left - right);
+      var bt = 1 / (bottom - top);
+      var nf = 1 / (near - far);
+    
+      matrix[0] = -2 * lr;
+      matrix[1] = 0;
+      matrix[2] = 0;
+      matrix[3] = 0;
+      matrix[4] = 0;
+      matrix[5] = -2 * bt;
+      matrix[6] = 0;
+      matrix[7] = 0;
+      matrix[8] = 0;
+      matrix[9] = 0;
+      matrix[10] = 2 * nf;
+      matrix[11] = 0;
+      matrix[12] = (left + right) * lr;
+      matrix[13] = (top + bottom) * bt;
+      matrix[14] = (far + near) * nf;
+      matrix[15] = 1;
+    
+      return matrix;
+    },
+
+    oblique: function(matrix, theta, phi) {
+      var tempTheta = theta * Math.PI / 180;
+      var tempPhi = phi * Math.PI / 180;
+      var cotTheta = 1 / Math.tan(tempTheta);
+      var cotPhi = 1 / Math.tan(tempPhi);
+    
+      matrix[0] = 1;
+      matrix[1] = 0;
+      matrix[2] = cotTheta;
+      matrix[3] = 0;
+      matrix[4] = 0;
+      matrix[5] = 1;
+      matrix[6] = cotPhi;
+      matrix[7] = 0;
+      matrix[8] = 0;
+      matrix[9] = 0;
+      matrix[10] = 1;
+      matrix[11] = 0;
+      matrix[12] = 0;
+      matrix[13] = 0;
+      matrix[14] = 0;
+      matrix[15] = 1;
+    
+      return m4.transpose(matrix);
+    },
   
     projection: function(width, height, depth) {
       // Note: This matrix flips the Y axis so 0 is at the top.
