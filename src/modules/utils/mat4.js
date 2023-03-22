@@ -69,9 +69,17 @@ export var m4 = {
       return matrix;
     },
 
+    radToDeg: function(r) {
+      return r * 180 / Math.PI;
+    },
+  
+    degToRad: function(d) {
+      return d * Math.PI / 180;
+    },
+
     oblique: function(matrix, theta, phi) {
-      var tempTheta = theta * Math.PI / 180;
-      var tempPhi = phi * Math.PI / 180;
+      var tempTheta = this.degToRad(theta);
+      var tempPhi = this.degToRad(theta);
       var cotTheta = 1 / Math.tan(tempTheta);
       var cotPhi = 1 / Math.tan(tempPhi);
     
@@ -91,8 +99,8 @@ export var m4 = {
       matrix[13] = 0;
       matrix[14] = 0;
       matrix[15] = 1;
-    
-      return m4.transpose(matrix);
+
+      return this.transpose(matrix);
     },
   
     projection: function(width, height, depth) {

@@ -65,7 +65,15 @@
               <div class="mr-2">z:</div>
               <input type="range" min="-5" max="5" step="0.01" value="1" class="slider" id="sz_slider">
             </div>
+          </div>
 
+          <div class="text-lg font-bold mb-2">Camera View Radius</div>
+          <input type="range" min="0" max="100" step="0.01" value="5" class="slider" id="cam_r_slider">
+          
+          <div class="text-lg font-bold mb-2">Camera View Angle</div>
+          <input type="range" min="-360" max="360" step="0.01" value="0" class="slider" id="cam_a_slider">
+          
+          <div class="flex flex-col mb-2">
             <div class="flex flex-row">
               <div class="mr-2 text-lg font-bold mb-2 mt-2" >Projection Type :</div>
               <select class="dropdown" id="mode_select" name="mode_select">

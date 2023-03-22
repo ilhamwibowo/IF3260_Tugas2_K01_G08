@@ -67,13 +67,15 @@ function main() {
     let enableShading = false;
     
     // Set up camera properties
-    var cameraPosition = [0, 0, 5];
+    var radius = 5;
+    var cameraPosition = [0, 0, radius];
     const target = [0, 0, 0];
     const up = [0, 1, 0];
+    var cameraAngleRadians = m4.degToRad(0);
 
     // Projection constants
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-    const fov = Math.PI / 4; 
+    const fov = m4.degToRad(45); 
     const near = 0.1;
     const far = 100;
 
@@ -89,20 +91,14 @@ function main() {
     const lightDirection = [0.5, 0.7, 1];
 
     // This is for testing purposes. Will be changed in future development
-    const cameraSpeed = 0.1;
+    const cameraSpeed = m4.degToRad(1);
     document.addEventListener('keydown', (event) => {
       if (event.key === 'r') {
         rotate = !rotate;
-      }
-
-      else if (event.key === 'ArrowUp') {
-        cameraPosition[2] -= cameraSpeed;
-      } else if (event.key === 'ArrowDown') {
-        cameraPosition[2] += cameraSpeed;
       } else if (event.key === 'ArrowLeft') {
-        cameraPosition[0] -= cameraSpeed;
+        cameraAngleRadians += cameraSpeed;
       } else if (event.key === 'ArrowRight') {
-        cameraPosition[0] += cameraSpeed;
+        cameraAngleRadians -= cameraSpeed;
       } else if (event.key === "q" || event.key === "Q") {
         enableShading = !enableShading;
       } else if (event.key === "a" || event.key === "A") {
@@ -222,6 +218,25 @@ function main() {
       drawScene();
     });
 
+    // Event listener for set default
+    document.getElementById("default_btn").addEventListener("click", function() {
+      cube = new Object3D(gl, vertices, colors, indices, normals, shader);
+      drawScene();
+    });
+
+    // Event listener for camera angle and radius
+    document.getElementById("cam_a_slider").oninput = function() {
+      let value = m4.degToRad(document.getElementById("cam_a_slider").value);
+      cameraAngleRadians = value;
+      drawScene();
+    };
+
+    document.getElementById("cam_r_slider").oninput = function() {
+      let value = document.getElementById("cam_r_slider").value;
+      radius = value;
+      drawScene();
+    };
+
     document.getElementById("shading").addEventListener("change", function() {
       enableShading = this.checked ? true : false;
       drawScene();
@@ -266,10 +281,23 @@ function main() {
         projectionMatrix = m4.translate( m4.multiply(obliqueMatrix, orthoMatrix), 1.75, 1.75, 1.75);
       }
 
+      // Use matrix math to compute a position on a circle where
+      // the camera is
+      var cameraMatrix = m4.yRotation(cameraAngleRadians);
+      cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius);
+
+      // Get the camera's position from the matrix we computed
+      var cameraPosition = [
+        cameraMatrix[12],
+        cameraMatrix[13],
+        cameraMatrix[14],
+      ];
+      console.log(cameraPosition);
+
       // Set up camera matrix, and get the view matrix relative to the camera
-      const cameraMatrix = m4.lookAt(cameraPosition, target, up);
-      const viewMatrix = m4.inverse2(cameraMatrix);
-      
+      var cameraMatrix = m4.lookAt(cameraPosition, target, up);
+      var viewMatrix = m4.inverse2(cameraMatrix);
+
       // This is for the light to be at fixed location when the camera moves
       const viewLightDirection = m4.transformDirection(viewMatrix, lightDirection);
 
