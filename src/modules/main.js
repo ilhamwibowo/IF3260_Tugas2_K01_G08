@@ -1,5 +1,6 @@
 // main.js
 import { createCube } from "./models/basicCube.js";
+import { createTriangularPrism } from "./models/triangularPrism.js";
 import { m4 } from "./utils/mat4.js";
 import { Object3D } from "./Object3D.js";
 import { Shader } from "./shaders/shaderProgram.js";
@@ -46,6 +47,8 @@ const fragmentShaderSource = `
   }
 `;
 
+var projection_type = 'perspective';
+
 function main() {
     const canvas = document.querySelector('#canvas');
     const gl = canvas.getContext('webgl');
@@ -58,7 +61,7 @@ function main() {
 
     // Set up shaders and cube properties
     const shader = new Shader(gl, vertexShaderSource, fragmentShaderSource);
-    var { vertices, colors, indices, normals } = createCube();
+    var { vertices, colors, indices, normals } = createTriangularPrism();
     var cube = new Object3D(gl, vertices, colors, indices, normals, shader);
 
     let enableShading = false;
@@ -135,11 +138,67 @@ function main() {
       drawScene();
     };
 
+    let ry_prev = 0;
+    document.getElementById("ry_slider").oninput = function () {
+      let value = document.getElementById("ry_slider").value;
+      cube.rotateY(value - ry_prev);
+      ry_prev = value;
+      drawScene();
+    };
+
+    let rz_prev = 0;
+    document.getElementById("rz_slider").oninput = function () {
+      let value = document.getElementById("rz_slider").value;
+      cube.rotateZ(value - rz_prev);
+      rz_prev = value;
+      drawScene();
+    };
+
     let tx_prev = 0;
     document.getElementById("tx_slider").oninput = function () {
       let value = document.getElementById("tx_slider").value;
       cube.translate(value - tx_prev, 0, 0);
       tx_prev = value;
+      drawScene();
+    };
+
+    let ty_prev = 0;
+    document.getElementById("ty_slider").oninput = function () {
+      let value = document.getElementById("ty_slider").value;
+      cube.translate(0, value - ty_prev, 0);
+      ty_prev = value;
+      drawScene();
+    };
+
+    let tz_prev = 0;
+    document.getElementById("tz_slider").oninput = function () {
+      let value = document.getElementById("tz_slider").value;
+      cube.translate(0, 0, value - tz_prev);
+      tz_prev = value;
+      drawScene();
+    };
+
+    let sx_prev = 1;
+    document.getElementById("sx_slider").oninput = function () {
+      let value = document.getElementById("sx_slider").value;
+      cube.scale(value / sx_prev, 1, 1);
+      sx_prev = value;
+      drawScene();
+    };
+
+    let sy_prev = 1;
+    document.getElementById("sy_slider").oninput = function () {
+      let value = document.getElementById("sy_slider").value;
+      cube.scale(1, value / sy_prev, 1);
+      sy_prev = value;
+      drawScene();
+    };
+
+    let sz_prev = 1;
+    document.getElementById("sz_slider").oninput = function () {
+      let value = document.getElementById("sz_slider").value;
+      cube.scale(1, 1, value / sz_prev);
+      sz_prev = value;
       drawScene();
     };
 
@@ -185,7 +244,7 @@ function main() {
 
       const modelViewMatrix = m4.multiply(viewMatrix, cube.modelMatrix);
       const normalMatrix = m4.transpose(m4.inverse2(modelViewMatrix));
-      
+
       // Combined matrix
       const matrix = m4.multiply(projectionMatrix, modelViewMatrix);
       
