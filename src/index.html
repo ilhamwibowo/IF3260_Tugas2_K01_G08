@@ -77,39 +77,22 @@
             <div class="flex flex-row">
               <div class="mr-2 text-lg font-bold mb-2 mt-2" >Projection Type :</div>
               <select class="dropdown" id="mode_select" name="mode_select">
-                  <option value="perspective">Perspective</option>
-                  <option value="orthographic">Orthographic</option>
-                  <option value="oblique">Oblique</option>
-                </select>
+                <option value="perspective">Perspective</option>
+                <option value="orthographic">Orthographic</option>
+                <option value="oblique">Oblique</option>
+              </select>
             </div>
 
             <div class="flex flex-row mt-2 ml-2 mr-2 gap-x-2">
-                <button id="help_btn">Help</button>
-                <button id="default_btn">Set Default</button>
+              <button id="saveButton">Save</button>
+              <button id="help_btn">Help</button>
+              <button id="default_btn">Set Default</button>
             </div>
 
             <div class="flex flex-row mt-2 ml-2 mr-2 gap-x-2">
                 <input type="file" accept=".json" id="fileInput">
                 <button id="loadButton">Load</button>
             </div>
-
-            <div class="flex flex-row mt-2 ml-2 mr-2 gap-x-2">
-              <button id="saveButton">Save</button>
-          </div>
-
-          <div class="text-lg font-bold mt-2 mb-2">Camera</div>
-          <div class="flex flex-col mb-2">
-            <div class="flex flex-row">
-              <div class="mr-2">Camera Angle:</div>
-              <input type="range" min="-360" max="360" step="1" value="0" class="slider" id="angleCamera">
-            </div>
-            <div class="flex flex-row">
-              <div class="mr-2">Zoom Camera:</div>
-              <input type="range" min="100" max="400" step="0.01" value="0" class="slider" id="zoomCamera">
-            </div>
-            <div class="flex flex-row">
-              <input type="button" class="resetbutton" id="resetbutton" name="resetbutton" value="Reset Camera">
-          </div>
 
             <label class="mt-2">
               <input type="checkbox" name="shading" id="shading">
