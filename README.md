@@ -43,8 +43,9 @@ Untuk melakukan _load hollow object_ pada _canvas_, gunakan _input file_ yang te
 
 Untuk menyimpan _3D hollow object_, gunakan _button_ yang tersedia di panel kanan
 
-1. Klik `save`
-2. Model tersimpan pada `Downloads` dengan nama default `hollowobject.json`
+1. Jika ingin menyimpan dengan nama file tertentu, masukkan nama file pada input teks yang tersedia (tanpa ekstensi).
+2. Klik `save`.
+3. Model tersimpan pada `Downloads` dengan nama default `hollowobject.json` atau dengan nama file _custom_ yang telah dimasukkan pada input teks dengan ekstensi JSON.
 
 ## Spesifikasi Lanjutan
 

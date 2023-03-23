@@ -253,7 +253,8 @@ function main() {
 
     // file setting
     const text = JSON.stringify(obj);
-    const name = "hollowobject.json";
+    const val = document.getElementById("save_filename").value;
+    const name = val === "" ? "hollowobject.json" : val + ".json";
     const type = "text/plain";
 
     // create file

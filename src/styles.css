@@ -90,6 +90,12 @@ canvas {
     column-gap: 0.5rem;
 }
 
+input[type="text"] {
+    border-radius: 15px;
+    border: 1px solid #E8DFCA;
+    padding: 0 0.5rem;
+    margin-right: 5px;
+}
 
 button,
 input::-webkit-file-upload-button,
