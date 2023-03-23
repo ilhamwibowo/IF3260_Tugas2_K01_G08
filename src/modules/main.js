@@ -266,6 +266,11 @@ function main() {
     a.click();
     a.remove();
   });
+
+  // Event listener for help
+  document.getElementById("help_btn").addEventListener("click", function() {
+    document.getElementById("modal").style.display = "block";
+  });
   
   function resizeCanvasToDisplaySize(canvas) {
     const width = canvas.clientWidth * window.devicePixelRatio;
