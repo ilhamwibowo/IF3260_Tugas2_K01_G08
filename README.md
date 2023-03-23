@@ -44,7 +44,7 @@ Untuk melakukan _load hollow object_ pada _canvas_, gunakan _input file_ yang te
 Untuk menyimpan _3D hollow object_, gunakan _button_ yang tersedia di panel kanan
 
 1. Klik `save`
-2. Model tersimpan pada `/model`
+2. Model tersimpan pada `Downloads` dengan nama default `hollowobject.json`
 
 ## Spesifikasi Lanjutan
 
@@ -52,3 +52,4 @@ Kami mengimplementasikan spek lanjutan berikut:
 
 1. _Manual Shading_
 2. _Save_
+   Fitur _save_ diimplementasikan dengan mengaplikasikan matriks transformasi pada titik-titik objek 3D dan normals-nya. Lalu, dibuat file JSON dan disimpan dengan Blob.

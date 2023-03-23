@@ -10,6 +10,10 @@ class Object3D {
     this.gl = gl;
     this.indices = indices;
     this.shaderProgram = shaderProgram;
+    this.vertices = vertices;
+    this.colors = colors;
+    this.normals = normals;
+    this.savedBuffers = null;
     
     // Model matrix representing object's transformations
     this.modelMatrix = m4.identity(); 
@@ -35,6 +39,39 @@ class Object3D {
 
   scale(sx, sy, sz) {
     this.modelMatrix = m4.scale(this.modelMatrix, sx, sy, sz);
+  }
+
+  // Save current buffers to be used later.
+  saveObject() {
+    // Apply modelMatrix to vertices.
+    const vertices = this.vertices;
+    const newVertices = [];
+    for (let i = 0; i < vertices.length; i += 3) {
+      const vertex = [vertices[i], vertices[i + 1], vertices[i + 2], 1];
+      const newVertex = m4.transformPoint(this.modelMatrix, vertex);
+      newVertices.push(newVertex[0], newVertex[1], newVertex[2]);
+    }
+
+    // Apply modelMatrix to normals.
+    const normals = this.normals;
+    const newNormals = [];
+    for (let i = 0; i < normals.length; i += 3) {
+      const normal = [normals[i], normals[i + 1], normals[i + 2], 1];
+      const newNormal = m4.transformPoint(this.modelMatrix, normal);
+      newNormals.push(newNormal[0], newNormal[1], newNormal[2]);
+    }
+
+    const colors = this.colors;
+    const indices = this.indices;
+
+    console.log("newVertices", colors);
+
+    return {
+      vertices: newVertices,
+      colors,
+      indices,
+      normals: newNormals,
+    };
   }
 
   

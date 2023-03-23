@@ -124,19 +124,24 @@ function main() {
     const file = fileInput.files[0];
 
     if (!file) {
-        alert("No file selected!");
-        return;
+      alert("No file selected!");
+      return;
     }
 
     loadFile(
-        file,
-        (fileContent) => {
-            cube = new Object3D(gl, fileContent.vertices, fileContent.colors, fileContent.indices, fileContent.normals, shader);
-            drawScene();
-        },
-        (error) => {
-            console.error("Error reading file:", error);
-        }
+      file,
+      (fileContent) => {
+        vertices = fileContent.vertices;
+        colors = fileContent.colors;
+        indices = fileContent.indices;
+        normals = fileContent.normals;
+
+        cube = new Object3D(gl, fileContent.vertices, fileContent.colors, fileContent.indices, fileContent.normals, shader);
+        drawScene();
+      },
+      (error) => {
+          console.error("Error reading file:", error);
+      }
     );
   });
 
@@ -240,6 +245,25 @@ function main() {
   document.getElementById("shading").addEventListener("change", function() {
     enableShading = this.checked ? true : false;
     drawScene();
+  });
+
+  // Event listener for save object
+  document.getElementById("save_btn").addEventListener("click", function() {
+    let obj = cube.saveObject();
+
+    // file setting
+    const text = JSON.stringify(obj);
+    const name = "hollowobject.json";
+    const type = "text/plain";
+
+    // create file
+    const a = document.createElement("a");
+    const file = new Blob([text], { type: type });
+    a.href = URL.createObjectURL(file);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   });
   
   function resizeCanvasToDisplaySize(canvas) {

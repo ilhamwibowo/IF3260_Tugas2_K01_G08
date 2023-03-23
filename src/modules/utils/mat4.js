@@ -322,4 +322,15 @@ export var m4 = {
         m[3], m[7], m[11], m[15],
       ];
     },
+
+    transformPoint: function(m, v) {
+      let dst = [];
+      for (let i = 0; i < 4; i++) {
+        dst[i] = 0.0;
+        for (let j = 0; j < 4; j++) {
+          dst[i] += v[j] * m[j * 4 + i];
+        }
+      }
+      return dst;
+    },
   };
