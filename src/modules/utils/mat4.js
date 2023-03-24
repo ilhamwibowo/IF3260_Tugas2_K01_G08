@@ -79,7 +79,7 @@ export var m4 = {
 
     oblique: function(matrix, theta, phi) {
       var tempTheta = this.degToRad(theta);
-      var tempPhi = this.degToRad(theta);
+      var tempPhi = this.degToRad(phi);
       var cotTheta = 1 / Math.tan(tempTheta);
       var cotPhi = 1 / Math.tan(tempPhi);
     
