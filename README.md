@@ -20,7 +20,7 @@ Berikut merupakan langkah-langkah untuk menjalankan proyek ini:
 
 1. Hollow Cube (Ilham Prasetyo Wibowo / 13520013)
 2. Hollow Triangular Prism (Maharani Ayu Putri Irawan / 13520019)
-3. ... (Yohana Golkaria Nainggolan / 13520053)
+3. Hollow Cuboid (Yohana Golkaria Nainggolan / 13520053)
 
 ## Transformasi
 
