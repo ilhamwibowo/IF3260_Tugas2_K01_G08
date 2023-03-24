@@ -5,6 +5,8 @@ import { m4 } from "./utils/mat4.js";
 import { Object3D } from "./Object3D.js";
 import { Shader } from "./shaders/shaderProgram.js";
 import { loadFile } from "./utils/loader.js";
+import { createHollowObject } from "./models/13520053hollowObject.js";
+import { createHollowCube2 } from "./models/hollowCube.js";
 
 /**
  * run with http-server
@@ -61,7 +63,7 @@ function main() {
 
   // Set up shaders and cube properties
   const shader = new Shader(gl, vertexShaderSource, fragmentShaderSource);
-  var { vertices, colors, indices, normals } = createTriangularPrism();
+  var { vertices, colors, indices, normals } = createHollowObject();
   var cube = new Object3D(gl, vertices, colors, indices, normals, shader);
 
   let enableShading = false;
