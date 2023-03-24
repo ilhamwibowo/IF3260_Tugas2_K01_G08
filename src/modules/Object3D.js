@@ -93,7 +93,7 @@ class Object3D {
     return buffer;
   }
 
-  draw(matrix, normalMatrix, lightDirection, enableShading) {
+  draw(projectionMatrix, modelViewMatrix, normalMatrix, lightDirection, enableShading) {
     // Tell webgl to use our program .
     this.gl.useProgram(this.shaderProgram.program);
 
@@ -114,7 +114,8 @@ class Object3D {
 
     // Set uniforms.
     this.gl.uniformMatrix4fv(this.shaderProgram.uniformLocations.normalMatrix, false, normalMatrix);
-    this.gl.uniformMatrix4fv(this.shaderProgram.uniformLocations.matrix, false, matrix);
+    this.gl.uniformMatrix4fv(this.shaderProgram.uniformLocations.projectionMatrix, false, projectionMatrix);
+    this.gl.uniformMatrix4fv(this.shaderProgram.uniformLocations.modelViewMatrix, false, modelViewMatrix);
     this.gl.uniform3fv(this.shaderProgram.uniformLocations.lightDirection, lightDirection);
     this.gl.uniform1i(this.shaderProgram.uniformLocations.enableShading, enableShading);
 

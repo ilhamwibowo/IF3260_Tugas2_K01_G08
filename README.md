@@ -51,6 +51,9 @@ Untuk menyimpan _3D hollow object_, gunakan _button_ yang tersedia di panel kana
 
 Kami mengimplementasikan spek lanjutan berikut:
 
-1. _Manual Shading_
-2. _Save_
+1. _Manual Shading_ \
+   Fitur manual shading diimplementasikan menggunakan modified model Phong dengan memperhitungkan ambient, diffuse, dan specular reflection pada fragment shader dengan dipengaruhi oleh normal bidang.
+2. _Save_ \
    Fitur _save_ diimplementasikan dengan mengaplikasikan matriks transformasi pada titik-titik objek 3D dan normals-nya. Lalu, dibuat file JSON dan disimpan dengan Blob.
+3. _Animation_ \
+   Fitur ini diimplementasikan dengan terus melakukan rotasi terhadap objek pada sumbu x dan y.

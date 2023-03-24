@@ -13,7 +13,8 @@ export class Shader {
         };
 
         this.uniformLocations = {
-            matrix: gl.getUniformLocation(this.program, "u_matrix"),
+            projectionMatrix:gl.getUniformLocation(this.program, "u_projectionMatrix"),
+            modelViewMatrix:gl.getUniformLocation(this.program, "u_modelViewMatrix"),
             normalMatrix: gl.getUniformLocation(this.program, "u_normalMatrix"),
             lightDirection: gl.getUniformLocation(this.program, "u_lightDirection"),
             enableShading: gl.getUniformLocation(this.program, "u_enableShading"),

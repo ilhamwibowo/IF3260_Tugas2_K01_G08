@@ -22,29 +22,51 @@ const vertexShaderSource = `
 
   varying vec4 v_color;
   varying vec3 v_normal;
+  varying vec3 v_pos;
+  varying vec3 v_N;
 
-  uniform mat4 u_matrix;
+  uniform mat4 u_modelViewMatrix;
+  uniform mat4 u_projectionMatrix;
   uniform mat4 u_normalMatrix;
 
   void main() {
-    gl_Position = u_matrix * a_position;
+    gl_Position = u_projectionMatrix * u_modelViewMatrix * a_position;
+    vec3 pos = -(u_modelViewMatrix * a_position).xyz;
+    v_pos = pos;
+
+    v_N = normalize((u_modelViewMatrix * vec4(a_normal, 0.0)).xyz);
     v_color = a_color;
     v_normal = mat3(u_normalMatrix) * a_normal;
+  
   }
 `
 const fragmentShaderSource = `
   precision mediump float;
-  
+  vec3 ambientColor = vec3(0.2, 0.2, 0.2);
+  vec3 diffuseColor = vec3(1.0, 1.0, 1.0);
+  vec3 specularColor = vec3(1.0, 1.0, 1.0);
+  float shininess = 50.0;
+
   varying vec4 v_color;
   varying vec3 v_normal;
+  varying vec3 v_pos;
+  varying vec3 v_N;
 
   uniform vec3 u_lightDirection;
   uniform bool u_enableShading;
 
   void main() {
     vec3 normal = normalize(v_normal);
-    float lightIntensity = dot(normal, u_lightDirection);
-    vec4 shadedColor = vec4(v_color.rgb * lightIntensity, v_color.a);
+    float lightIntensity = max(dot(normal, u_lightDirection), 0.0);
+
+    vec3 ambient = ambientColor * v_color.rgb;
+    vec3 diffuse = diffuseColor * v_color.rgb * lightIntensity;
+    vec3 H = normalize(u_lightDirection - v_pos);
+    float Ks = pow(max(dot(v_N, H), 0.0), shininess);
+    vec3 specular = (Ks * specularColor).xyz;
+    if (dot(u_lightDirection, v_N) < 0.0) specular = vec3(0.0, 0.0, 0.0);
+
+    vec4 shadedColor = vec4(ambient + diffuse + specular, v_color.a);
     gl_FragColor = u_enableShading ? shadedColor : v_color;
   }
 `;
@@ -63,7 +85,7 @@ function main() {
 
   // Set up shaders and cube properties
   const shader = new Shader(gl, vertexShaderSource, fragmentShaderSource);
-  var { vertices, colors, indices, normals } = createHollowObject();
+  var { vertices, colors, indices, normals } = createHollowCube2();
   var cube = new Object3D(gl, vertices, colors, indices, normals, shader);
 
   let enableShading = false;
@@ -92,6 +114,8 @@ function main() {
   // Light direction
   const lightDirection = [0.5, 0.7, 1];
 
+  var rotate = false;
+
   // This is for testing purposes. Will be changed in future development
   const cameraSpeed = m4.degToRad(1);
   document.addEventListener('keydown', (event) => {
@@ -101,22 +125,9 @@ function main() {
       cameraAngleRadians += cameraSpeed;
     } else if (event.key === 'ArrowRight') {
       cameraAngleRadians -= cameraSpeed;
-    } else if (event.key === "q" || event.key === "Q") {
-      enableShading = !enableShading;
-    } else if (event.key === "a" || event.key === "A") {
-      cube.translate(-0.5, 0, 0);
-    } else if (event.key === "d" || event.key === "D") {
-      cube.translate(0.5, 0, 0);
-    } else if (event.key === "s" || event.key === "S") {
-      cube.translate(0, 0, -0.5);
-    } else if (event.key === "w" || event.key === "W") {
-      cube.translate(0, 0, 0.5);
-    } else if (event.key === "t" || event.key === "t") {
-      cube.rotateX(0.1);
-      cube.rotateY(0.1);
-    } 
+    }
 
-    drawScene()
+    if(!rotate) drawScene();
   });
   
 
@@ -152,7 +163,7 @@ function main() {
     let value = document.getElementById("rx_slider").value;
     cube.rotateX(value - rx_prev);
     rx_prev = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
 
   let ry_prev = 0;
@@ -160,7 +171,7 @@ function main() {
     let value = document.getElementById("ry_slider").value;
     cube.rotateY(value - ry_prev);
     ry_prev = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
 
   let rz_prev = 0;
@@ -168,7 +179,7 @@ function main() {
     let value = document.getElementById("rz_slider").value;
     cube.rotateZ(value - rz_prev);
     rz_prev = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
 
   let tx_prev = 0;
@@ -176,7 +187,7 @@ function main() {
     let value = document.getElementById("tx_slider").value;
     cube.translate(value - tx_prev, 0, 0);
     tx_prev = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
 
   let ty_prev = 0;
@@ -184,7 +195,7 @@ function main() {
     let value = document.getElementById("ty_slider").value;
     cube.translate(0, value - ty_prev, 0);
     ty_prev = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
 
   let tz_prev = 0;
@@ -192,7 +203,7 @@ function main() {
     let value = document.getElementById("tz_slider").value;
     cube.translate(0, 0, value - tz_prev);
     tz_prev = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
 
   let sx_prev = 1;
@@ -200,7 +211,7 @@ function main() {
     let value = document.getElementById("sx_slider").value;
     cube.scale(value / sx_prev, 1, 1);
     sx_prev = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
 
   let sy_prev = 1;
@@ -208,7 +219,7 @@ function main() {
     let value = document.getElementById("sy_slider").value;
     cube.scale(1, value / sy_prev, 1);
     sy_prev = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
 
   let sz_prev = 1;
@@ -216,37 +227,45 @@ function main() {
     let value = document.getElementById("sz_slider").value;
     cube.scale(1, 1, value / sz_prev);
     sz_prev = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
+
+  // Rotate animation
+  document.getElementById("rotate_btn").addEventListener("click", function() {
+    rotate = !rotate;
+    drawScene();
+  });
 
   // Event listener for projection type
   document.getElementById("mode_select").addEventListener("change", function() {
     projection_type = this.value;
-    drawScene();
+    if (!rotate) drawScene();
   });
 
   // Event listener for set default
   document.getElementById("default_btn").addEventListener("click", function() {
     cube = new Object3D(gl, vertices, colors, indices, normals, shader);
-    drawScene();
+    rotate = false;
+    if (!rotate) drawScene();
   });
 
   // Event listener for camera angle and radius
   document.getElementById("cam_a_slider").oninput = function() {
     let value = m4.degToRad(document.getElementById("cam_a_slider").value);
     cameraAngleRadians = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
 
+  
   document.getElementById("cam_r_slider").oninput = function() {
     let value = document.getElementById("cam_r_slider").value;
     radius = value;
-    drawScene();
+    if (!rotate) drawScene();
   };
 
   document.getElementById("shading").addEventListener("change", function() {
     enableShading = this.checked ? true : false;
-    drawScene();
+    if (!rotate) drawScene();
   });
 
   // Event listener for save object
@@ -336,10 +355,15 @@ function main() {
     const normalMatrix = m4.transpose(m4.inverse2(modelViewMatrix));
 
     // Combined matrix
-    const matrix = m4.multiply(projectionMatrix, modelViewMatrix);
+    // const matrix = m4.multiply(projectionMatrix, modelViewMatrix);
     
-    cube.draw(matrix, normalMatrix, viewLightDirection, enableShading);
-    // requestAnimationFrame(drawScene);
+    cube.draw(projectionMatrix, modelViewMatrix, normalMatrix, viewLightDirection, enableShading);
+    
+    if (rotate) {
+      cube.rotateX(0.01);
+      cube.rotateY(0.01);
+      requestAnimationFrame(drawScene);
+    }
   }
 
   drawScene();
