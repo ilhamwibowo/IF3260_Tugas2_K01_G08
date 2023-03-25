@@ -5,7 +5,7 @@ import { m4 } from "./utils/mat4.js";
 import { Object3D } from "./Object3D.js";
 import { Shader } from "./shaders/shaderProgram.js";
 import { loadFile } from "./utils/loader.js";
-import { createHollowObject } from "./models/13520053hollowObject.js";
+import { createHollowObject } from "./models/hollowCuboid.js";
 import { createHollowCube2 } from "./models/hollowCube.js";
 
 /**
