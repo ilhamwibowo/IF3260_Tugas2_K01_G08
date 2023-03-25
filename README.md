@@ -57,3 +57,9 @@ Kami mengimplementasikan spek lanjutan berikut:
    Fitur _save_ diimplementasikan dengan mengaplikasikan matriks transformasi pada titik-titik objek 3D dan normals-nya. Lalu, dibuat file JSON dan disimpan dengan Blob.
 3. _Animation_ \
    Fitur ini diimplementasikan dengan terus melakukan rotasi terhadap objek pada sumbu x dan y.
+
+## Dibuat Oleh
+
+[@ilhamwibowo](https://github.com/ilhamwibowo)
+[@rannnayy](https://github.com/rannnayy)
+[@Yohanagn](https://github.com/Yohanagn)
