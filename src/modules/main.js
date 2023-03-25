@@ -260,6 +260,9 @@ function main() {
     // Reset camera variables
     radius = 5;
     cameraAngleRadians = m4.degToRad(0);
+
+    // Reset rotation variable
+    rotate = false;
   }
 
   // Event listener for set default
@@ -267,8 +270,7 @@ function main() {
     cube = new Object3D(gl, vertices, colors, indices, normals, shader);
 
     resetInputs();
-
-    rotate = false;
+    
     if (!rotate) drawScene();
   });
 
