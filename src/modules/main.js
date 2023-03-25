@@ -150,6 +150,7 @@ function main() {
         normals = fileContent.normals;
 
         cube = new Object3D(gl, fileContent.vertices, fileContent.colors, fileContent.indices, fileContent.normals, shader);
+        resetInputs();
         drawScene();
       },
       (error) => {
@@ -161,7 +162,7 @@ function main() {
   let rx_prev = 0;
   document.getElementById("rx_slider").oninput = function () {
     let value = document.getElementById("rx_slider").value;
-    cube.rotateX(value - rx_prev);
+    cube.rotateY(value - rx_prev);
     rx_prev = value;
     if (!rotate) drawScene();
   };
@@ -169,7 +170,7 @@ function main() {
   let ry_prev = 0;
   document.getElementById("ry_slider").oninput = function () {
     let value = document.getElementById("ry_slider").value;
-    cube.rotateY(value - ry_prev);
+    cube.rotateX(value - ry_prev);
     ry_prev = value;
     if (!rotate) drawScene();
   };
@@ -242,9 +243,29 @@ function main() {
     if (!rotate) drawScene();
   });
 
+  function resetInputs() {
+    // Reset all sliders
+    document.getElementById("rx_slider").value = 0;
+    document.getElementById("ry_slider").value = 0;
+    document.getElementById("rz_slider").value = 0;
+    document.getElementById("tx_slider").value = 0;
+    document.getElementById("ty_slider").value = 0;
+    document.getElementById("tz_slider").value = 0;
+    document.getElementById("sx_slider").value = 1;
+    document.getElementById("sy_slider").value = 1;
+    document.getElementById("sz_slider").value = 1;
+    document.getElementById("cam_a_slider").value = 0;
+    document.getElementById("cam_r_slider").value = 5;
+    document.getElementById("mode_select").value = "perspective";
+    document.getElementById("shading").checked = false;
+  }
+
   // Event listener for set default
   document.getElementById("default_btn").addEventListener("click", function() {
     cube = new Object3D(gl, vertices, colors, indices, normals, shader);
+
+    resetInputs();
+
     rotate = false;
     if (!rotate) drawScene();
   });
