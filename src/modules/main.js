@@ -162,7 +162,7 @@ function main() {
   let rx_prev = 0;
   document.getElementById("rx_slider").oninput = function () {
     let value = document.getElementById("rx_slider").value;
-    cube.rotateY(value - rx_prev);
+    cube.rotateX(value - rx_prev);
     rx_prev = value;
     if (!rotate) drawScene();
   };
@@ -170,7 +170,7 @@ function main() {
   let ry_prev = 0;
   document.getElementById("ry_slider").oninput = function () {
     let value = document.getElementById("ry_slider").value;
-    cube.rotateX(value - ry_prev);
+    cube.rotateY(value - ry_prev);
     ry_prev = value;
     if (!rotate) drawScene();
   };
