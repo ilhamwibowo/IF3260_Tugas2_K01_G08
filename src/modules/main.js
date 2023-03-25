@@ -257,7 +257,6 @@ function main() {
     document.getElementById("cam_a_slider").value = 0;
     document.getElementById("cam_r_slider").value = 5;
     document.getElementById("mode_select").value = "perspective";
-    document.getElementById("shading").checked = false;
   }
 
   // Event listener for set default
