@@ -92,7 +92,6 @@ function main() {
   
   // Set up camera properties
   var radius = 5;
-  var cameraPosition = [0, 0, radius];
   const target = [0, 0, 0];
   const up = [0, 1, 0];
   var cameraAngleRadians = m4.degToRad(0);
@@ -257,6 +256,10 @@ function main() {
     document.getElementById("cam_a_slider").value = 0;
     document.getElementById("cam_r_slider").value = 5;
     document.getElementById("mode_select").value = "perspective";
+
+    // Reset camera variables
+    radius = 5;
+    cameraAngleRadians = m4.degToRad(0);
   }
 
   // Event listener for set default
